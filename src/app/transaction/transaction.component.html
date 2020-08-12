@@ -1,0 +1,36 @@
+
+<p-table [columns]="cols" [value]="transactions" sortMode="multiple" #dt [paginator]="true" [rows]="100" exportFilename="browsers"   
+csvSeparator=";" >
+
+  
+
+    <ng-template pTemplate="caption">
+Transactions List    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>  
+
+        <button type="button"  
+        label="CSV" (click)="dt.exportCSV()"  class="bi bi-arrow-90deg-down" fill="currentColor">Save
+          </button>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+            </th>
+        </tr>
+    
+    </ng-template>
+    <ng-template pTemplate="body" let-transaction let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{transaction[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>
+  
